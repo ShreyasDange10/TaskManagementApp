@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import trouter from "./router/task.router";
 import bodyParser from "body-parser";
 import cors from 'cors';
+import crouter from "./router/category.router";
 
 dotenv.config()
 
@@ -31,4 +32,6 @@ app.listen(port, ()=>{
     console.log(`App is listening on port ${port}`);
 })  
 
-app.use('/todo', trouter);
+app.use('/task', trouter);
+
+app.use('/', crouter);
