@@ -5,11 +5,12 @@ import trouter from "./router/task.router";
 import bodyParser from "body-parser";
 import cors from 'cors';
 import crouter from "./router/category.router";
+import arouter from "./router/auth.router";
 
 dotenv.config()
 
 const app = express();
-const port = 3008;
+const port = 3010;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 var corsOptions = {
-  origin: ['http://localhost:5173', 'https://todo-list-server-iota.vercel.app'],
+  origin: ['http://localhost:5173'],
   optionsSuccessStatus: 200 
 }
 
@@ -32,6 +33,8 @@ app.listen(port, ()=>{
     console.log(`App is listening on port ${port}`);
 })  
 
+app.use('/auth', arouter);
+
 app.use('/task', trouter);
 
-app.use('/', crouter);
+app.use('/category', crouter);

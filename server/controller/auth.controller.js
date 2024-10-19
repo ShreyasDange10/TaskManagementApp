@@ -5,6 +5,7 @@ import generateTokenAndSetCookie from "../utils/generateToken";
 export const register = async (req, res) =>{
     try {
         const { username, email, password, confirmPassword } = req.body;
+        
         if(password !== confirmPassword){
             return res.status(400).json({
                 error: "Password does not match",
@@ -55,11 +56,12 @@ export const register = async (req, res) =>{
     }
 }
 
+
 export const login =  async (req, res) =>{
     try {
-        const { username_email, password } = req.body
-
-        const user = await userModel.findOne({$or:[{email: username_email}, {username: username_email}]});
+        const { email, password } = req.body
+        const user = await userModel.findOne({email});
+        console.log(user, 'user')
         if(!user){
             return res.status(404).json({
                 error: "User not found",

@@ -2,24 +2,27 @@ import categoryModel from "../model/category.model";
 
 export const addCategories = async (req, res) => {
     try {
-        const { name } =  req.body;
+        const { name, userID } =  req.body;
         const addCategory = new categoryModel({
-            name: name
+            name,
+            userID
         });
 
-        await addCategory.save();
-        
-        res.status(200).json({
-            data : addCategory,
-            message: 'Category added successfully',
-            code: 200
-        })
+        const newCategory = await addCategory.save();
 
-        res.status(400).json({
-            data:[],
-            message: 'Could not add Category',
-            code:400
-        })
+        if(newCategory){
+            return res.status(200).json({
+                data : addCategory,
+                message: 'Category added successfully',
+                code: 200
+            })
+        }else{
+            res.status(400).json({
+                data:[],
+                message: 'Could not add Category',
+                code:400
+            })
+        }
     } catch (error) {
         res.status(500).json({
             data:[],

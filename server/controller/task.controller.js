@@ -2,16 +2,24 @@ import taskModel from "../model/task.model";
 
 export const addTask = async (req, res) =>{
     try {
-        const addData = new taskModel(req.body)
-        const addTaskData = await addData.save();
+
+        const { name, description, status, userID, categoryID } = req.body
+        const addTask = new taskModel({
+            name,
+            description,
+            status,
+            userID,
+            categoryID
+        });
+        const addTaskData = await addTask.save();
         
         if(addTaskData){
-            res.status(200).json({
+            return res.status(200).json({
                 data:addTaskData,
                 message:"Task added Successfully"
             })
         }else{
-            res.status(400).json({
+            return res.status(400).json({
                 message:"Cannot add task"
             })
         }
@@ -88,9 +96,20 @@ export const deleteTask = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const taskID = req.params.taskID;
-        // console.log(req.body,"req.body")
+        // console.log(req.body,"req.body");
+        const { status } = req.body;
+        const allowedStatus = ['pending' , 'in-progress', 'completed'];
+
+        if(!allowedStatus.includes(status)){
+            return res.status(400).json({
+                message: 'Invalid status'
+            })
+        };
+
         const updateTaskData = await taskModel.updateOne({_id:taskID},{
-            $set:req.body
+            $set: {
+                 status : status
+            }
         })        
         const getData = await taskModel.findOne({_id:taskID})
         if(updateTaskData.acknowledged){

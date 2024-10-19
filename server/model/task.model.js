@@ -11,14 +11,15 @@ const taskSchema = new Schema({
         type:String,
         required:true
     },
-    complete:{
-        type:Boolean,
-        default:false
-    },
     categoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
         required: true
+    },
+    status:{
+        type: String,
+        enum:["pending", "in-progress", "completed"],
+        default:"pending"
     },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -27,4 +28,4 @@ const taskSchema = new Schema({
     }
 });
 
-export default mongoose.model("todo", taskSchema);
+export default mongoose.model("task", taskSchema);

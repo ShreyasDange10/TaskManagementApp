@@ -1,4 +1,10 @@
-import userModel from "../model/user.model";
 import express from 'express';
+import { register, login, logout } from "../controller/auth.controller";
 
-const router = express.Router();
+const arouter = express.Router();
+
+arouter.post('/signup', register);
+arouter.post('/login', login);
+arouter.post('/logout', logout);
+
+export default arouter 
