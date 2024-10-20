@@ -6,7 +6,17 @@ async function userLogout() {
     if (data.status === 'success') {
         localStorage.clear()
         setTimeout(() => {
-            window.location.href = "login.html";
+            window.location.href = "/client/login.html";
         }, 1000);
     }
 }
+
+function userAuth(){
+    var userid = localStorage.getItem("userID");
+
+    if(!userid){
+        window.location.href = "/client/login.html";
+    }
+}
+
+userAuth();
