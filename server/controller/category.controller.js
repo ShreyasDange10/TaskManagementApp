@@ -35,15 +35,20 @@ export const addCategories = async (req, res) => {
 export const getCategories = async (req, res) => {
     try {
         const getCategory = await categoryModel.find();
-        res.status(200).json({
-            data: getCategory,
-            message: "Category Data fetched successfully"
-        });
+        if(getCategory){
+            return res.status(200).json({
+                data: getCategory,
+                message: "Category Data fetched successfully",
+                code:200,
+                status: "success"
+            });
+        }else{
+            return res.status(400).json({
+                data:[],
+                message: 'Cannot fetch category data'
+            })
+        }
 
-        res.status(400).json({
-            data:[],
-            message: 'Cannot fetch category data'
-        })
     } catch (error) {
         res.status(500).json({
             data:[],
@@ -55,19 +60,16 @@ export const getCategories = async (req, res) => {
 export const deleteCategories = async (req, res) =>{
     try {
         const categoryID = req.params.id    
-        const deleteCategory = await categoryModel.updateOne(
-            {_id: categoryID},
-                {$set: 
-                    {
-                    isDeleted : true
-                }
-            }
+        const deleteCategory = await categoryModel.deleteOne(
+            {_id: categoryID}
         );
 
         if(deleteCategory.acknowledged){
             res.status(200).json({
                 data: deleteCategory,
-                message: 'Category deleted successfully'
+                message: 'Category deleted successfully',
+                code:200,
+                status:"success"
             })
         }else{
             res.status(400).json({

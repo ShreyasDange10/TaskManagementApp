@@ -3,8 +3,8 @@ import { addCategories, getCategories, deleteCategories } from '../controller/ca
 
 const crouter = express.Router();
 
-crouter.post('/categories', addCategories);
-crouter.get('categories', getCategories);
-crouter.delete('categories/ :id', deleteCategories);
+crouter.post('/add-category', addCategories);
+crouter.get('/get-categories', getCategories);
+crouter.delete('/delete-category/:id', deleteCategories);
 
 export default crouter

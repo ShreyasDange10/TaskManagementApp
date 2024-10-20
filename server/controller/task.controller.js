@@ -16,7 +16,8 @@ export const addTask = async (req, res) =>{
         if(addTaskData){
             return res.status(200).json({
                 data:addTaskData,
-                message:"Task added Successfully"
+                message:"Task added Successfully",
+                code:200
             })
         }else{
             return res.status(400).json({
@@ -32,11 +33,13 @@ export const addTask = async (req, res) =>{
 
 export const getTask = async (req, res) =>{
     try {
-        const getTaskData = await taskModel.find();
+        const getTaskData = await taskModel.find().populate({path:'categoryID', select:'name'});
         if(getTaskData){
             res.status(200).json({
                 data:getTaskData,
-                message:"Data fetched Successfully"
+                message:"Data fetched Successfully",
+                code:200,
+                status:"success"
             })
         }else{
             res.status(400).json({
@@ -79,7 +82,9 @@ export const deleteTask = async (req, res) => {
         if(deleteTaskData.acknowledged){
             res.status(200).json({
                 data: getData,
-                message: 'Data deleted successfully'
+                message: 'Data deleted successfully',
+                code:200,
+                status:"success"
             })
         }else{
             res.status(400).json({
@@ -98,13 +103,8 @@ export const updateTask = async (req, res) => {
         const taskID = req.params.taskID;
         // console.log(req.body,"req.body");
         const { status } = req.body;
-        const allowedStatus = ['pending' , 'in-progress', 'completed'];
-
-        if(!allowedStatus.includes(status)){
-            return res.status(400).json({
-                message: 'Invalid status'
-            })
-        };
+       
+        console.log(status)
 
         const updateTaskData = await taskModel.updateOne({_id:taskID},{
             $set: {
@@ -115,7 +115,8 @@ export const updateTask = async (req, res) => {
         if(updateTaskData.acknowledged){
             res.status(200).json({
                 data: getData,
-                message:"Data Updated Successfully"
+                message:"Data Updated Successfully",
+                code:200
             })
         }else{
             res.status(400).json({

@@ -12,12 +12,10 @@ const categorySchema = new Schema({
         ref: 'user',
         required: true
     },
-    isDeleted:{
-        type: Boolean,
-        default:false
-    }
+    
 },{
     timestamps: true
-});
+}
+);
 
 export default mongoose.model('category', categorySchema);

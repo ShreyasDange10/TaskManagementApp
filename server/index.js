@@ -18,12 +18,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-var corsOptions = {
-  origin: ['http://localhost:5173'],
-  optionsSuccessStatus: 200 
-}
+// var corsOptions = {
+//   origin: ['http://localhost:5173'],
+//   optionsSuccessStatus: 200 
+// }
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 mongoose.connect(`mongodb+srv://ShreyasD:ShreyasD@cluster0.agpjzqh.mongodb.net/taskManagementApp`)
   .then(() => console.log('Connected to database!'))
